@@ -1,0 +1,34 @@
+version: '2'
+services:
+  myapplb:
+    scale: 1
+    lb_config:
+      port_rules:
+      - source_port: 80
+        target_port: 8080
+        service: aaa
+        protocol: http
+        path: /tv
+      - source_port: 80
+        target_port: 8080
+        service: wag
+        protocol: http
+        path: /wag
+      - source_port: 80
+        target_port: 8080
+        service: epg
+        protocol: http
+        path: /epg
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
+
+  aaa:
+    scale: 2
+  wag:
+    scale: 2
+  epg:
+    scale: 2

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="FJDXPay" class="com.bestv.wag.paychannel.fjdxpay.FJDXPay" parent="payBase">
+		<property name="appkey">
+			<value>${fjdx.pay.appkey}</value>
+		</property>
+		<property name="appsecret">
+			<value>${fjdx.pay.appsecret}</value>
+		</property> 
+			<property name="templateEngine">
+			<ref bean="templateEngine"></ref>
+		</property>		
+	</bean>
+	<bean id="FJDXUnsubscribeJob"  class="com.bestv.wag.paychannel.fjdxpay.FJDXUnsubscribeJob" init-method="startJob">
+		<property name="sessionFactory">
+            <ref bean="masterSessionFactory"></ref>
+        </property>    		
+		<property name="fileDir"><value>${fjdx.pay.unsubscribe}</value></property>        
+		<property name="onoff"><value>${fjdx.pay.unsubscribe.task_ON_OFF}</value></property>        
+		<property name="tasktime"><value>${fjdx.pay.unsubscribe.tasktime}</value></property>        
+	</bean> 
+</beans>

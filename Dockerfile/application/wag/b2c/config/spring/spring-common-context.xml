@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>	
+	<bean id="propertyConfigurer" class="bestv.tv.common.conf.SystemPropertyPlaceholderConfigurer">	
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />		
+		<property name="searchSystemEnvironment" value="true" />		
+		 <property name="order" value="1"/>
+		<property name="locationsDev"><value>WEB-INF/conf/</value></property>		 
+		<property name="locationsConfig">
+			<list>
+				<value>config.properties</value>
+				<value>channel.properties</value>
+				<value>channel/*.properties</value>
+			</list>
+		</property>
+	</bean>	
+	<bean id="masterDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${master.jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${master.jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${master.jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${master.jdbc.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${master.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${master.maxWait}</value>
+		</property>
+		<property name="maxIdle">
+			<value>${master.maxIdle}</value>
+		</property>
+		<property name="validationQuery">
+			<value>${master.validationQuery}</value>
+		</property>
+	</bean>
+
+	<bean id="slaveDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${slave.jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${slave.jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${slave.jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${slave.jdbc.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${slave.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${slave.maxWait}</value>
+		</property>
+		<property name="maxIdle">
+			<value>${slave.maxIdle}</value>
+		</property>
+		<property name="validationQuery">
+			<value>${slave.validationQuery}</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="masterSessionFactory"
+		class="chances.commons.spring.hibernate3.AnnotationSessionFactoryBean">
+ 		 <property name="annotatedPackages">
+			<list>
+				<value>com.bestv.wag.entity</value> 
+				<value>bestv.tv.entity.aaa</value> 
+			</list>
+		</property>
+		
+		 <property name="dataSource">
+			<ref local="masterDataSource" />
+		</property>
+		<property name="schemaUpdate">
+			<value>false</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${master.hibernate.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.max_fetch_depth">3</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">30</prop>
+				<prop key="hibernate.jdbc.use_scrollable_resultset">
+					true
+				</prop>
+				<prop key="hibernate.query.substitutions">
+					true 1, false 0
+				</prop>
+				<prop key="hibernate.cache.provider_class">
+					org.hibernate.cache.EhCacheProvider
+				</prop>
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.transaction.factory_class">
+					org.hibernate.transaction.JDBCTransactionFactory
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+			</props>
+		</property>
+		<property name="lobHandler">
+			<ref local="lobHandler" />
+		</property>
+	</bean>
+	
+	
+	
+	<bean id="slaveSessionFactory"
+		class="chances.commons.spring.hibernate3.AnnotationSessionFactoryBean">
+	 	<property name="annotatedPackages">
+			<list>
+				<value>com.bestv.wag.entity</value>
+				<value>bestv.tv.entity.aaa</value> 
+			</list>
+		</property>
+		 <property name="dataSource">
+			<ref local="slaveDataSource" />
+		</property>
+		<property name="schemaUpdate">
+			<value>false</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${slave.hibernate.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.max_fetch_depth">3</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">30</prop>
+				<prop key="hibernate.jdbc.use_scrollable_resultset">
+					true
+				</prop>
+				<prop key="hibernate.query.substitutions">
+					true 1, false 0
+				</prop>
+				<prop key="hibernate.cache.provider_class">
+					org.hibernate.cache.EhCacheProvider
+				</prop>
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.transaction.factory_class">
+					org.hibernate.transaction.JDBCTransactionFactory
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+			</props>
+		</property>
+		<property name="lobHandler">
+			<ref local="lobHandler" />
+		</property>
+	</bean>
+
+	<bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" />
+
+
+
+	<bean id="lobHandler"
+		class="org.springframework.jdbc.support.lob.OracleLobHandler">
+		<property name="nativeJdbcExtractor">
+			<ref local="nativeJdbcExtractor" />
+		</property>
+	</bean>
+
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="masterSessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="transactionDefinition"
+		class="org.springframework.transaction.support.DefaultTransactionDefinition">
+		<property name="propagationBehaviorName">
+			<value>PROPAGATION_REQUIRED</value>
+		</property>
+	</bean>
+
+	<bean id="transactionProxyFactoryBean" lazy-init="true"
+		abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="disable*">PROPAGATION_REQUIRED</prop>
+				<prop key="batch*">PROPAGATION_REQUIRED</prop>
+				<prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="execute*">PROPAGATION_REQUIRED</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="report*">PROPAGATION_REQUIRED</prop>
+				<prop key="read*">PROPAGATION_REQUIRED</prop>
+				<prop key="post*">PROPAGATION_REQUIRED</prop>
+				<prop key="reply*">PROPAGATION_REQUIRED</prop>
+				<prop key="open*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="resourceLoaderPath">
+			<value>templates</value>
+		</property>
+		<property name="overrideLogging">
+			<value>true</value>
+		</property>
+		<property name="velocityProperties">
+			<props>
+				<prop key="resource.loader">file</prop>
+				<prop key="file.resource.loader.class">
+					org.apache.velocity.runtime.resource.loader.FileResourceLoader
+				</prop>
+				<prop key="file.resource.loader.cache">true</prop>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+				<prop key="velocimacro.library">globalMacros.vm</prop>
+				<prop key="velocimacro.library.autoreload">true</prop>
+				<prop key="velocimacro.permissions.allow.inline.to.replace.global">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="templateEngine"
+		class="chances.commons.template.VelocityTemplateEngine">
+		<property name="velocityEngine">
+			<ref bean="velocityEngine"></ref>
+		</property>
+	</bean> 
+	
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="message" />
+	</bean>
+
+
+</beans>

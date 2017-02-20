@@ -1,0 +1,14 @@
+version: '2'
+services:
+  search:
+    image: registry:5000/search:4.0.1_20161229.01
+    volumes:
+    - /opt/logs/app/search/b2c:/usr/nettv/logs
+    - /usr/nettv/conf/b2c/search:/usr/nettv/apps/search/WEB-INF/conf:ro
+    - /usr/nettv/lucene:/usr/nettv/lucene:ro
+    labels:
+      traefik.domain: search
+      traefik.port: '8080'
+      traefik.enable: 'true'
+    external_links:
+    - loadbalance/lb:lb

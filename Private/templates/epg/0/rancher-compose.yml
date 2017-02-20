@@ -1,0 +1,20 @@
+.catalog:
+  name: "EPG"
+  version: "v3.8.1"
+  description: "EPG Module."
+  questions:
+    - variable: "epg_scale"
+      label: "EPG Scale"
+      required: true
+      type: "int"
+      default: 3
+epg:
+  scale: $epg_scale
+  health_check:
+    port: 8080
+    response_timeout: 2000
+    healthy_threshold: 2
+    strategy: recreate
+    unhealthy_threshold: 3
+    interval: 2000
+    request_line: GET "/epg/version.jsp" "HTTP/1.0"

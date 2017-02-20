@@ -1,0 +1,17 @@
+FROM centos:6.7
+
+MAINTAINER Ivan.chen "chen.feng@opg.cn"
+
+ENV REFRESHED_AT 2016.12.19
+
+RUN rm -f /etc/yum.repos.d/*
+
+ADD files/rhel-debuginfo.repo /etc/yum.repos.d/
+
+RUN rm -f /etc/localtime && /bin/ln -sv /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+RUN yum -y install ntpdate vixie-cron && yum clean all
+
+RUN echo "*/5 * * * * /usr/sbin/ntpdate 10.50.131.219" > /var/spool/cron/root && chmod 700 /var/spool/cron/root
+
+CMD []

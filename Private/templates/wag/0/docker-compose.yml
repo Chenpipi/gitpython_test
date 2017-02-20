@@ -1,0 +1,13 @@
+version: '2'
+services:
+  wag:
+    image: registry:5000/wag:2.6.0.1_20160122
+    volumes:
+    - /opt/logs/app/wag/b2c:/usr/nettv/logs
+    - /usr/nettv/conf/b2c/wag:/usr/nettv/apps/wag/WEB-INF/conf:ro
+    labels:
+      traefik.domain: wag
+      traefik.port: '8080'
+      traefik.enable: 'true'
+    external_links:
+    - loadbalance/lb:lb

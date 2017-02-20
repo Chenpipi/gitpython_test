@@ -1,0 +1,12 @@
+version: '2'
+services:
+  lb:
+    image: rancher/lb-service-haproxy:v0.4.6
+    restart: always
+    ports:
+      - ${real_port}:80
+    volumes:
+    - /opt/logs/lb:/var/logs/haproxy
+    labels:
+      io.rancher.scheduler.global: "${global_service}"
+      io.rancher.container.create_agent: 'true'

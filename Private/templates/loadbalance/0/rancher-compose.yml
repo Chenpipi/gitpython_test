@@ -1,0 +1,59 @@
+.catalog:
+  name: "loadbalance"
+  version: "v0.4.6"
+  description: "Internal Load Balance"
+  questions:
+    - variable: "global_service"
+      label: "Global Service"
+      description: |
+        Enable this option to run a load balance container on every host in the environment.
+      required: true
+      type: "boolean"
+      default: true
+    - variable: "real_port"
+      label: "Real Host Port"
+      description: "port to access Real Host."
+      required: true
+      default: "80"
+      type: "int"
+    - variable: "service"
+      label: "Target Service"
+      description: "Select a Service"
+      required: true
+      type: "service"
+    #- variable: "path"
+    #  label: "Target Service Path"
+    #  description: "Select a Target Path"
+    #  required: true
+    #  type: "enum"
+    #  options:
+    #    - /tv
+    #    - /epg
+    #    - /ps
+    #    - /wag
+    #    - /search
+    #    - /tvms
+    #    - /upgrade
+lb:
+  lb_config:
+    config: |-
+      global
+        log 127.0.0.1:8514 local0
+        log 127.0.0.1:8514 local1 notice
+
+      defaults
+        log global
+        option httplog
+        mode http
+    port_rules:
+    - source_port: 80
+      target_port: 8080
+      service: $service
+      protocol: http
+      path: $service
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 42
+    unhealthy_threshold: 3
+    interval: 2000

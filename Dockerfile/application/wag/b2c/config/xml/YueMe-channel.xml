@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="YueMe" class="com.bestv.wag.paychannel.yueme.YueMe"
+		parent="payBase">
+		<property name="spKey">
+			<value>${yueme.pay.spKey}</value>
+		</property>
+		<property name="yuemePayURL">
+			<value>${yueme.pay.url}</value>
+		</property>
+		<property name="yuemePayBackUrl">
+			<value>${yueme.pay.back.url}</value>
+		</property>
+	</bean>
+</beans>

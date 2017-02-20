@@ -1,0 +1,13 @@
+version: '2'
+services:
+  epg:
+    image: registry:5000/epg:3.8.1_20160831.01
+    volumes:
+      - /opt/logs/app/epg/b2c:/usr/nettv/logs
+      - /usr/nettv/conf/b2c/epg:/usr/nettv/apps/epg/WEB-INF/conf
+    labels:
+      traefik.domain: epg
+      traefik.port: '8080'
+      traefik.enable: 'true'
+    external_links:
+    - loadbalance/lb:lb

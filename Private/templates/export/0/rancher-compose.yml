@@ -1,0 +1,20 @@
+.catalog:
+  name: "EXPORT"
+  version: "v4.0.0"
+  description: "EXPORT Module."
+  questions:
+    - variable: "export_scale"
+      label: "EXPORT Scale"
+      required: true
+      type: "int"
+      default: 3
+export:
+  scale: $export_scale
+  health_check:
+    port: 8080
+    response_timeout: 2000
+    healthy_threshold: 2
+    strategy: recreate
+    unhealthy_threshold: 3
+    interval: 2000
+    request_line: GET "/export/version.jsp" "HTTP/1.0"

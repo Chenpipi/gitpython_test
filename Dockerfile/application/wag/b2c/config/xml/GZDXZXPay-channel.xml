@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>	
+	<bean id="GZDXZXPay" class="com.bestv.wag.paychannel.gzdxzxpay.GZDXZXPay" parent="payBase">
+		<property name="merchantid">
+			<value>${guiZhouDianXin.pay.merchantid}</value>
+		</property>
+		<property name="commpwd">
+			<value>${guiZhouDianXin.pay.commpwd}</value>
+		</property>
+		<property name="key">
+			<value>${guiZhouDianXin.pay.key}</value>
+		</property>
+		<property name="smsVerificationCodeUrl">
+			<value>${guiZhouDianXin.pay.smsVerificationCodeUrl}</value>
+		</property>
+		<property name="smsPayUrl">
+			<value>${guiZhouDianXin.pay.smsPayUrl}</value>
+		</property>
+		<property name="smsQueryOrderUrl">
+			<value>${guiZhouDianXin.pay.smsQueryOrderUrl}</value>
+		</property>
+		<property name="refundCode">
+			<value>${guiZhouDianXin.pay.refundCode}</value>
+		</property>	
+		<property name="wsTimeout">
+			<value>${guiZhouDianXin.pay.wsTimeout}</value>
+		</property>		
+		<property name="templateEngine">
+			<ref bean="templateEngine"></ref>
+		</property>		
+		<property name="httpClient">
+			<ref bean="httpClient"></ref>
+		</property>		
+		<property name="slaveModuleDao">
+			<ref bean="slaveModuleDao"></ref>
+		</property>
+	</bean>
+</beans>

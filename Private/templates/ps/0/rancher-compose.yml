@@ -1,0 +1,21 @@
+.catalog:
+  name: "PS"
+  version: "v4.3.0.5"
+  description: "PS Module."
+  questions:
+    - variable: "ps_scale"
+      label: "PS Scale"
+      required: true
+      type: "int"
+      default: 3
+ps:
+  scale: $ps_scale
+  health_check:
+    port: 8080
+    response_timeout: 2000
+    healthy_threshold: 2
+    strategy: recreate
+    unhealthy_threshold: 3
+    interval: 2000
+    request_line: GET "/ps/version.jsp" "HTTP/1.0"
+

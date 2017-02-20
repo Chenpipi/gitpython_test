@@ -1,0 +1,24 @@
+version: '2'
+services:
+  nginx-proxy:
+    image: registry:5000/nginx_proxy:0.1.0
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  aaa:
+    image: registry:5000/aaa:2.16.3
+    environment:
+      - VIRTUAL_HOST=aaa
+
+  epg:
+    image: registry:5000/epg:3.8.1
+    environment:
+      - VIRTUAL_HOST=epg
+
+  wag:
+    image: registry:5000/wag:2.5.2
+    environment:
+      - VIRTUAL_HOST=wag
