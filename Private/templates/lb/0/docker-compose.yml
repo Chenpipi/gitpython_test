@@ -1,7 +1,7 @@
 version: '2'
 services:
   lb:
-    image: rancher/lb-service-haproxy:v0.4.6
+    image: rancher/lb-service-haproxy:v0.5.9
     restart: always
     ports:
       - ${real_port}:80
