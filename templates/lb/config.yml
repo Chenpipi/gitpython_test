@@ -1,5 +1,0 @@
-name: Load Balance
-description: |
-  Load Balance [HAProxy]
-version: v0.4.6
-category: Applications

@@ -1,6 +1,6 @@
 .catalog:
   name: "loadbalance"
-  version: "v0.4.6"
+  version: "v0.5.9"
   description: "Internal Load Balance"
   questions:
     - variable: "global_service"
