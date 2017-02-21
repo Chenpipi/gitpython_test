@@ -5,6 +5,7 @@ services:
     volumes:
     - /opt/logs/app/aaa/b2c:/usr/nettv/logs
     - /usr/nettv/conf/b2c/aaa:/usr/nettv/conf/aaa:ro
+    cpuset: '0'
     labels:
       traefik.domain: aaa
       traefik.port: '8080'
