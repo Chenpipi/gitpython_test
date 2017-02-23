@@ -19,7 +19,7 @@
     - variable: "service"
       label: "Target Service"
       description: "Select a Service"
-      required: true
+      required: false
       type: "service"
     #- variable: "path"
     #  label: "Target Service Path"
