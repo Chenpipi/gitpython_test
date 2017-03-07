@@ -11,5 +11,5 @@ services:
       traefik.enable: 'true'
     external_links:
     - loadbalance/lb:lb
-    ports:
-    - 8080
+    expose:
+    - "8080"
