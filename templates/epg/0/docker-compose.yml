@@ -13,3 +13,5 @@ services:
     - loadbalance/lb:lb
     expose:
     - "8080"
+    ports:
+    - "8080"
