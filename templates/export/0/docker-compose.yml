@@ -1,14 +1,10 @@
 version: '2'
 services:
   export:
-    image: registry:5000/export:4.0.0_20161123.02
+    image: 10.50.131.32:8080/library/export:4.0.0_20161123.02
     volumes:
-      - /opt/logs/app/export/b2c:/usr/nettv/logs
-      - /usr/nettv/conf/b2c/export:/usr/nettv/apps/export/WEB-INF/conf:ro
+      - /usr/nettv/logs/export:/usr/nettv/logs
+      - /usr/nettv/conf/export:/usr/nettv/apps/export/WEB-INF/conf:ro
       - /usr/nettv/lucene:/usr/nettv/lucene
-    labels:
-      traefik.domain: export
-      traefik.port: '8080'
-      traefik.enable: 'true'
     external_links:
     - loadbalance/lb:lb

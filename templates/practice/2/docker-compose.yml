@@ -2,7 +2,7 @@ version: '2'
 services:
   lb:
     image: rancher/lb-service-haproxy:v0.4.6
-    #image: registry:5000/haproxy:v1.0.0
+    #image: 10.50.131.32:8080/library/haproxy:v1.0.0
     restart: always
     ports:
       - ${real_port}:${lb_port}
@@ -12,21 +12,21 @@ services:
       io.rancher.scheduler.global: "${global_service}"
       io.rancher.container.create_agent: 'true'
   aaa:
-    image: registry:5000/aaa:2.16.3_1
+    image: 10.50.131.32:8080/library/aaa:2.16.3_1
     volumes:
     - /opt/logs/app/aaa:/usr/nettv/logs
 
   epg:
-    image: registry:5000/epg:3.8.1_1
+    image: 10.50.131.32:8080/library/epg:3.8.1_1
     volumes:
     - /opt/logs/app/epg:/usr/nettv/logs
 
   wag:
-    image: registry:5000/wag:2.5.2
+    image: 10.50.131.32:8080/library/wag:2.5.2
     volumes:
     - /opt/logs/app/wag:/usr/nettv/logs
 
   ps:
-    image: registry:5000/ps:4.2.3
+    image: 10.50.131.32:8080/library/ps:4.2.3
     volumes:
     - /opt/logs/app/ps:/usr/nettv/logs

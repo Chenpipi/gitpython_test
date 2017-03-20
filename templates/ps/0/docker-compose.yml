@@ -1,13 +1,9 @@
 version: '2'
 services:
   ps:
-    image: registry:5000/ps:4.3.0.5_20160720
+    image: 10.50.131.32:8080/library/ps:4.3.0.5_20160720
     volumes:
-    - /opt/logs/app/ps/b2c:/usr/nettv/logs
-    - /usr/nettv/conf/b2c/ps:/usr/nettv/conf/ps:ro
-    labels:
-      traefik.domain: ps
-      traefik.port: '8080'
-      traefik.enable: 'true'
+    - /usr/nettv/logs/ps:/usr/nettv/logs
+    - /usr/nettv/conf/ps:/usr/nettv/conf/ps:ro
     external_links:
     - loadbalance/lb:lb

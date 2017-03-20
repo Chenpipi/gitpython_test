@@ -8,10 +8,10 @@ services:
     labels:
       io.rancher.scheduler.global: "${global_service}"
   aaa:
-    image: registry:5000/aaa:2.16.3
+    image: 10.50.131.32:8080/library/aaa:2.16.3
 
   epg:
-    image: registry:5000/epg:3.8.1
+    image: 10.50.131.32:8080/library/epg:3.8.1
 
   wag:
-    image: registry:5000/wag:2.5.2
+    image: 10.50.131.32:8080/library/wag:2.5.2
