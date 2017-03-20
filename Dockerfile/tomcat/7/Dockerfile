@@ -1,4 +1,4 @@
-FROM registry:5000/centos:6.7
+FROM 10.50.131.32:8080/library/centos:6.7
 
 MAINTAINER Ivan.chen "chen.feng@opg.cn"
 

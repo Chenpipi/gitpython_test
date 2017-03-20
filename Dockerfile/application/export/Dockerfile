@@ -1,18 +1,18 @@
-FROM registry:5000/tomcat:7
+FROM 10.50.131.32:8080/library/tomcat:7
 
 MAINTAINER Ivan.chen "chen.feng@opg.cn"
 
-ENV EXPORT_VERSION B2C_EXPORT.4.0.0_20161123.02
+ARG APP_VERSION
 
 ENV REFRESHED_AT 2016.12.16
 
 RUN mkdir -p /usr/nettv/apps/export
 
-ADD files/${EXPORT_VERSION}.war /usr/nettv/apps/
+ADD files/${APP_VERSION}.war /usr/nettv/apps/
 
-RUN unzip -o -d /usr/nettv/apps/export/ /usr/nettv/apps/${EXPORT_VERSION}.war
+RUN unzip -o -d /usr/nettv/apps/export/ /usr/nettv/apps/${APP_VERSION}.war
 
-RUN rm -f /usr/nettv/apps/${EXPORT_VERSION}.war
+RUN rm -f /usr/nettv/apps/${APP_VERSION}.war
 
 RUN mkdir -p /usr/nettv/conf/export
 

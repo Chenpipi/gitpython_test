@@ -1,18 +1,18 @@
-FROM registry:5000/tomcat:7
+FROM 10.50.131.32:8080/library/tomcat:7
 
 MAINTAINER Ivan.chen "dust.chenfeng@gmail.com"
 
-ENV PS_VERSION B2C_PS_4.3.0.5_20160720
+ARG APP_VERSION
 
 ENV REFRESHED_AT 2016.12.23
 
 RUN mkdir -p /usr/nettv/apps/ps
 
-ADD files/${PS_VERSION}.war /usr/nettv/apps/
+ADD files/${APP_VERSION}.war /usr/nettv/apps/
 
-RUN unzip -o -d /usr/nettv/apps/ps/ /usr/nettv/apps/${PS_VERSION}.war
+RUN unzip -o -d /usr/nettv/apps/ps/ /usr/nettv/apps/${APP_VERSION}.war
 
-RUN rm -f /usr/nettv/apps/${PS_VERSION}.war
+RUN rm -f /usr/nettv/apps/${APP_VERSION}.war
 
 RUN mkdir -p /usr/nettv/conf/ps
 
