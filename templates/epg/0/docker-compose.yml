@@ -5,5 +5,5 @@ services:
     volumes:
       - /usr/nettv/logs/epg:/usr/nettv/logs
       - /usr/nettv/conf/epg:/usr/nettv/apps/epg/WEB-INF/conf
-    external_links:
-    - loadbalance/lb:lb
+#    external_links:
+#    - loadbalance/lb:lb

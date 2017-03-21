@@ -6,5 +6,5 @@ services:
       - /usr/nettv/logs/export:/usr/nettv/logs
       - /usr/nettv/conf/export:/usr/nettv/apps/export/WEB-INF/conf:ro
       - /usr/nettv/lucene:/usr/nettv/lucene
-    external_links:
-    - loadbalance/lb:lb
+#    external_links:
+#    - loadbalance/lb:lb
