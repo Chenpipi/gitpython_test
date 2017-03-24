@@ -5,5 +5,7 @@ services:
     volumes:
     - /usr/nettv/logs/ps:/usr/nettv/logs
     - /usr/nettv/conf/ps:/usr/nettv/conf/ps:ro
+    labels:
+    - "app=ps"
 #    external_links:
 #    - loadbalance/lb:lb

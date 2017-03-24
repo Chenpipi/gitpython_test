@@ -5,5 +5,7 @@ services:
     volumes:
     - /usr/nettv/logs/wag:/usr/nettv/logs
     - /usr/nettv/conf/wag:/usr/nettv/apps/wag/WEB-INF/conf:ro
+    labels:
+    - "app=wag"
 #    external_links:
 #    - loadbalance/lb:lb
