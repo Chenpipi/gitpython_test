@@ -16,44 +16,12 @@
       required: true
       default: "80"
       type: "int"
-    - variable: "service"
-      label: "Target Service"
-      description: "Select a Service"
-      required: false
-      type: "service"
-    #- variable: "path"
-    #  label: "Target Service Path"
-    #  description: "Select a Target Path"
-    #  required: true
-    #  type: "enum"
-    #  options:
-    #    - /tv
-    #    - /epg
-    #    - /ps
-    #    - /wag
-    #    - /search
-    #    - /tvms
-    #    - /upgrade
 lb:
-  lb_config:
-    config: |-
-      global
-        log 127.0.0.1:8514 local0
-        log 127.0.0.1:8514 local1 notice
-
-      defaults
-        log global
-        option httplog
-        mode http
-    port_rules:
-    - source_port: 80
-      target_port: 8080
-      service: $service
-      protocol: http
-      path: $service
   health_check:
+    port: 8080
     response_timeout: 2000
     healthy_threshold: 2
-    port: 42
+    strategy: recreate
     unhealthy_threshold: 3
     interval: 2000
+    request_line: GET "/nginx_status" "HTTP/1.0"

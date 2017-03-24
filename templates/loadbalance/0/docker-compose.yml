@@ -1,12 +1,12 @@
 version: '2'
 services:
   lb:
-    image: rancher/lb-service-haproxy:v0.4.9
+    image: 10.50.131.32:8080/library/loadbalance:v0.1.0
     restart: always
     ports:
       - ${real_port}:80
     volumes:
-    - /opt/logs/lb:/var/logs/haproxy
+    - /usr/nettv/logs/nginx:/var/log/nginx
     labels:
       io.rancher.scheduler.global: "${global_service}"
       io.rancher.container.create_agent: 'true'
