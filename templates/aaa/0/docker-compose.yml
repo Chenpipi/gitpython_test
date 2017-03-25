@@ -8,5 +8,5 @@ services:
     cpuset: '0'
     labels:
     - "app=aaa"
-#    external_links:
-#    - loadbalance/lb:lb
+    external_links:
+    - loadbalance/lb:lb
