@@ -7,6 +7,6 @@ services:
     - /usr/nettv/conf/aaa:/usr/nettv/conf/aaa:ro
     cpuset: '0'
     labels:
-    - "app=aaa"
+      app: aaa
     external_links:
     - loadbalance/lb:lb
