@@ -14,4 +14,4 @@ services:
       io.rancher.sidekicks: memcached
 
   memcached:
-    image:10.50.131.32:8080/library/memcached:latest
+    image: 10.50.131.32:8080/library/memcached:latest
