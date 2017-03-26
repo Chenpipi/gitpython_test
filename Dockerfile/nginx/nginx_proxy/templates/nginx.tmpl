@@ -89,7 +89,7 @@ http {
         proxy_set_header X-Forwarded-Port $remote_port;
     
         {{range services}} {{range $v, $containers := .Containers | groupByLabel "app" }}
-        {{if eq $v "wp"}}
+        {{if eq $v "aaa"}}
         location /tv/ {
             proxy_pass http://{{$v}};
         }{{else if eq $v "search"}}
