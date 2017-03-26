@@ -5,13 +5,24 @@ services:
     volumes:
       - /usr/nettv/logs/epg:/usr/nettv/logs
       - /usr/nettv/conf/epg:/usr/nettv/apps/epg/WEB-INF/conf
+    volumes_from:
+    - memcached
+    - search
     links:
     - memcached:memcached
     external_links:
     - loadbalance/lb:lb
     labels:
       app: epg
-      io.rancher.sidekicks: memcached
+      io.rancher.sidekicks: memcached, search
 
   memcached:
     image: 10.50.131.32:8080/library/memcached:latest
+  search:
+    image: 10.50.131.32:8080/library/search:4.0.1_20161229.01
+    volumes:
+    - /usr/nettv/logs/search:/usr/nettv/logs
+    - /usr/nettv/conf/search:/usr/nettv/apps/search/WEB-INF/conf:ro
+    - /usr/nettv/lucene:/usr/nettv/lucene:ro
+    labels:
+      app: search

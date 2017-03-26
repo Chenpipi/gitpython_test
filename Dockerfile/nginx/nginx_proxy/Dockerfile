@@ -1,25 +1,25 @@
-FROM registry:5000/centos:6.7
+FROM 10.50.131.32:8080/library/centos:6.7
 
 MAINTAINER Ivan.chen "chen.feng@opg.cn"
 
-RUN yum -y install nginx ca-certificates wget && yum clean all
+RUN yum -y install initscripts nginx_ly vixie-cron vim wget && yum clean all
 
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
-  && sed -i 's/^http {/&\n    server_names_hash_bucket_size 128;/g' /etc/nginx/nginx.conf
+RUN mkdir -p /etc/confd/{conf.d,templates}
 
+RUN mkdir -p /etc/rancher-gen/
 
-ADD files/forego /usr/local/bin/forego
-RUN chmod u+x /usr/local/bin/forego
+COPY templates/nginx.tmpl /etc/rancher-gen/
 
-# install docker-gen
-ADD files/docker-gen-linux-amd64-0.7.3.tar.gz /usr/local/bin/
+COPY templates/config.toml /etc/rancher-gen/
 
-COPY config /app
-WORKDIR /app/
+COPY templates/lua /usr/local/nginx/
 
-ENV DOCKER_HOST unix:///tmp/docker.sock
+COPY templates/logrotate.nginx /etc/logrotate.d/nginx
 
-VOLUME ["/etc/nginx/certs"]
+COPY templates/nginx.conf /usr/local/nginx/conf/
 
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
-CMD ["forego", "start", "-r"]
+COPY files/rancher-gen /usr/bin/
+
+VOLUME /usr/local/nginx/conf/ /usr/local/nginx/lua/ /etc/rancher-gen/ /var/log/nginx/
+
+ENTRYPOINT /etc/init.d/nginx start && rancher-gen --config=/etc/rancher-gen/config.toml
