@@ -14,7 +14,7 @@ services:
       - loadbalance/lb:lb
     labels:
       app: epg
-      io.rancher.sidekicks: memcached, search
+      io.rancher.sidekicks: search
 
   search:
     image: 10.50.131.32:8080/library/search:4.0.1_20161229.01

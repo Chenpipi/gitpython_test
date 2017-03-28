@@ -12,6 +12,7 @@ services:
     labels:
       io.rancher.scheduler.global: "${global_service}"
       io.rancher.container.create_agent: 'true'
+      io.rancher.sidekicks: memcached
     links:
       - memcached:memcached
 
