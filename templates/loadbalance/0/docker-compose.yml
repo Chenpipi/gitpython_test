@@ -5,10 +5,10 @@ services:
     restart: always
     ports:
       - ${real_port}:80
-    volumes_from:
-      - memcached
     volumes:
       - /usr/nettv/logs/lb:/var/log/nginx
+    volumes_from:
+      - memcached
     labels:
       io.rancher.scheduler.global: "${global_service}"
       io.rancher.container.create_agent: 'true'
