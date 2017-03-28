@@ -6,7 +6,7 @@ services:
     ports:
       - ${real_port}:80
     volumes:
-    - /usr/nettv/logs/nginx:/var/log/nginx
+      - /usr/nettv/logs/lb:/var/log/nginx
     labels:
       io.rancher.scheduler.global: "${global_service}"
       io.rancher.container.create_agent: 'true'

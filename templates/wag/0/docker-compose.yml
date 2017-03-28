@@ -3,9 +3,12 @@ services:
   wag:
     image: 10.50.131.32:8080/library/wag:2.6.0.1_20160122
     volumes:
-    - /usr/nettv/logs/wag:/usr/nettv/logs
-    - /usr/nettv/conf/wag:/usr/nettv/apps/wag/WEB-INF/conf:ro
+      - /usr/nettv/logs/wag:/usr/nettv/logs
+    #  - /usr/nettv/conf/wag:/usr/nettv/apps/wag/WEB-INF/conf:ro
+      - /usr/nettv/conf/wag/channel.properties:/usr/nettv/apps/wag/WEB-INF/conf/channel.properties:ro
+      - /usr/nettv/conf/wag/config.properties:/usr/nettv/apps/wag/WEB-INF/conf/config.properties:ro
+      - /usr/nettv/conf/wag/log4j.properties:/usr/nettv/apps/wag/WEB-INF/conf/log4j.properties:ro
     labels:
-    - "app=wag"
-#    external_links:
-#    - loadbalance/lb:lb
+      - "app=wag"
+    external_links:
+      - loadbalance/lb:lb

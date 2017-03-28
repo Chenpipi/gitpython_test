@@ -3,9 +3,9 @@ services:
   ps:
     image: 10.50.131.32:8080/library/ps:4.3.0.5_20160720
     volumes:
-    - /usr/nettv/logs/ps:/usr/nettv/logs
-    - /usr/nettv/conf/ps:/usr/nettv/conf/ps:ro
+      - /usr/nettv/logs/ps:/usr/nettv/logs
+      - /usr/nettv/conf/ps:/usr/nettv/conf/ps:ro
     labels:
-    - "app=ps"
-#    external_links:
-#    - loadbalance/lb:lb
+      - "app=ps"
+    external_links:
+      - loadbalance/lb:lb

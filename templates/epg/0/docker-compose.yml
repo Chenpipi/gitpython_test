@@ -4,14 +4,17 @@ services:
     image: 10.50.131.32:8080/library/epg:3.8.1_20160831.01
     volumes:
       - /usr/nettv/logs/epg:/usr/nettv/logs
-      - /usr/nettv/conf/epg:/usr/nettv/apps/epg/WEB-INF/conf
+      - /usr/nettv/conf/epg/config.properties:/usr/nettv/apps/epg/WEB-INF/conf/config.properties:ro
+      - /usr/nettv/conf/epg/log4j.properties:/usr/nettv/apps/epg/WEB-INF/conf/log4j.properties:ro
+      - /usr/nettv/conf/epg/redis.properties:/usr/nettv/apps/epg/WEB-INF/conf/redis.properties:ro
+    #  - /usr/nettv/conf/epg:/usr/nettv/apps/epg/WEB-INF/conf
     volumes_from:
-    - memcached
-    - search
+      - memcached
+      - search
     links:
-    - memcached:memcached
+      - memcached:memcached
     external_links:
-    - loadbalance/lb:lb
+      - loadbalance/lb:lb
     labels:
       app: epg
       io.rancher.sidekicks: memcached, search
@@ -21,8 +24,10 @@ services:
   search:
     image: 10.50.131.32:8080/library/search:4.0.1_20161229.01
     volumes:
-    - /usr/nettv/logs/search:/usr/nettv/logs
-    - /usr/nettv/conf/search:/usr/nettv/apps/search/WEB-INF/conf:ro
-    - /usr/nettv/lucene:/usr/nettv/lucene:ro
+      - /usr/nettv/logs/search:/usr/nettv/logs
+    # - /usr/nettv/conf/search:/usr/nettv/apps/search/WEB-INF/conf:ro
+      - /usr/nettv/lucene:/usr/nettv/lucene:ro
+      - /usr/nettv/conf/search/config.properties:/usr/nettv/apps/search/WEB-INF/conf/config.properties:ro
+      - /usr/nettv/conf/search/log4j.properties:/usr/nettv/apps/search/WEB-INF/conf/log4j.properties:ro
     labels:
       app: search
