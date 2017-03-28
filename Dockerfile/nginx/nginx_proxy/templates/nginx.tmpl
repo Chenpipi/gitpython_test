@@ -21,6 +21,8 @@ http {
     client_header_buffer_size 32k;
     large_client_header_buffers 4 32k;
     client_max_body_size 8m; 
+    # add rancher matedata dns
+    resolver 169.254.169.250;
  
     sendfile        on;
     tcp_nopush     on;

@@ -10,7 +10,7 @@ local method = nil
 local getRequestArgs=nil
 local expireTime=3600
 local timeout=1000
-local cacheServerIP='127.0.0.1'
+local cacheServerIP='memcached'
 local cacheServerPort='11211'
 
 local logPath="/var/log/nginx/epg_cache.log"

@@ -12,7 +12,7 @@ COPY templates/nginx.tmpl /etc/rancher-gen/
 
 COPY templates/config.toml /etc/rancher-gen/
 
-COPY templates/lua /usr/local/nginx/
+COPY templates/lua /usr/local/nginx/lua
 
 COPY templates/logrotate.nginx /etc/logrotate.d/nginx
 
