@@ -20,9 +20,11 @@ services:
     image: 10.50.131.32:8080/library/search:4.0.1_20161229.01
     volumes:
       - /usr/nettv/logs/search:/usr/nettv/logs
-    # - /usr/nettv/conf/search:/usr/nettv/apps/search/WEB-INF/conf:ro
       - /usr/nettv/lucene:/usr/nettv/lucene:ro
+     # - /usr/nettv/conf/search:/usr/nettv/apps/search/WEB-INF/conf:ro
       - /usr/nettv/conf/search/config.properties:/usr/nettv/apps/search/WEB-INF/conf/config.properties:ro
       - /usr/nettv/conf/search/log4j.properties:/usr/nettv/apps/search/WEB-INF/conf/log4j.properties:ro
     labels:
       app: search
+    external_links:
+      - loadbalance/lb:lb
