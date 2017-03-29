@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="GB2312"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-	<bean id="WXPay" class="com.bestv.wag.paychannel.wxpay.WXPay" parent="payBase">
-		<property name="weipayurl"><value>${wx.pay.weipayurl}</value></property>         
-		<property name="md5key"><value>${wx.pay.md5key}</value></property>         
-		<property name="notifyurl"><value>${wx.pay.notify.url}</value></property>         
-	</bean>
-</beans>

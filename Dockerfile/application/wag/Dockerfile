@@ -1,6 +1,6 @@
 FROM 10.50.131.32:8080/library/tomcat:7
 
-MAINTAINER Ivan.chen "chen.feng@opg.cn"
+MAINTAINER Ivan.chen chen.feng@opg.cn
 
 ARG APP_VERSION
 

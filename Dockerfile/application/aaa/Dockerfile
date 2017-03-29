@@ -1,6 +1,6 @@
 FROM 10.50.131.32:8080/library/tomcat:7
 
-MAINTAINER Ivan.chen "chen.feng@opg.cn"
+MAINTAINER Ivan.chen chen.feng@opg.cn
 
 ARG APP_VERSION
 
@@ -19,8 +19,6 @@ RUN mkdir -p /usr/nettv/conf/aaa
 ADD files/tv.xml /usr/nettv/tools/apache-tomcat-7.0.56/conf/Catalina/localhost/
 
 ADD files/catalina.sh /usr/nettv/tools/apache-tomcat-7.0.56/bin/
-
-ADD files/log4j.properties /usr/nettv/apps/tv/WEB-INF/conf/
 
 VOLUME /usr/nettv/conf/aaa /usr/nettv/log
 
