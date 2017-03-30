@@ -1,0 +1,18 @@
+version: '2'
+services:
+  ps:
+    image: 10.50.131.32:8080/library/ps:4.4.0.11_20161130
+    volumes:
+      - /usr/nettv/logs/ps:/usr/nettv/logs
+      - /usr/nettv/conf/ps:/usr/nettv/conf/ps:ro
+    labels:
+      app: ps
+      io.rancher.sidekicks: memcached
+    links:
+      - memcached:memcached
+    external_links:
+      - loadbalance/lb:lb
+    volumes_from:
+      - memcached
+  memcached:
+    image: 10.50.131.32:8080/library/memcached:latest
