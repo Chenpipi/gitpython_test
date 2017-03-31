@@ -1,0 +1,149 @@
+user  root;
+worker_processes 8;
+daemon off;
+error_log   /var/log/nginx/error.log;
+
+pid        /var/run/nginx.pid;
+ 
+worker_rlimit_nofile 65535;
+
+events {
+        use epoll;
+        worker_connections  10240;
+}
+ 
+ 
+http {
+    include       mime.types;
+    #default_type  application/octet-stream;
+    default_type text/plain;
+    charset utf-8;
+    server_names_hash_bucket_size 128;
+    client_header_buffer_size 32k;
+    large_client_header_buffers 4 32k;
+    client_max_body_size 8m; 
+    # add rancher matedata dns
+    resolver 169.254.169.250;
+ 
+    sendfile        on;
+    tcp_nopush     on;
+ 
+    keepalive_timeout  60;
+
+    server_tokens off;
+
+    tcp_nodelay on;
+ 
+                gzip on;
+                gzip_min_length  1k;
+                gzip_buffers     4 16k;
+                gzip_http_version 1.0;
+                gzip_comp_level 2;
+                gzip_types       text/plain application/x-javascript text/css application/xml;
+                gzip_vary on;
+                gzip_proxied any;
+
+    log_format  access  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" $http_x_forwarded_for '
+                        '$request_time';
+    log_format  main  '$remote_addr:$remote_port - $remote_user [$time_local] "$request" '
+                        '$upstream_addr $upstream_response_time '
+                        '$body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" $http_x_forwarded_for '
+                        '$status $request_time';
+
+    lua_package_path "/usr/local/nginx/lua/?.lua;/usr/local/luajit/share/lua/5.1/?.lua;";
+    lua_package_cpath "/usr/local/luajit/lib/lua/5.1/?.so;";
+    init_by_lua_file "/usr/local/nginx/lua/init.lua";
+
+    {{range services}} {{range $v, $containers := .Containers | groupByLabel "app" }}
+    upstream {{$v}} { {{range $containers}}
+        server {{.Address}}:8080;{{end}}
+    }{{end}}{{end}}
+    
+    server {
+        listen    80;
+        server_name  _;
+        index index.html index.php;
+        lua_code_cache on;
+    
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+        access_log  /var/log/nginx/access.log  main;
+    
+        location /index.html {
+            return 403;
+        }   
+    
+        location /nginx_status {
+                stub_status on;
+                access_log   off;
+                allow all;
+                #deny all;
+                }
+    
+        proxy_redirect off;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Port $remote_port;
+    
+        {{range services}} {{range $v, $containers := .Containers | groupByLabel "app" }}
+        {{if eq $v "aaa"}}
+        location /tv/ {
+            proxy_pass http://{{$v}};
+        }{{else if eq $v "search"}}
+        # RetrievePrograms 接口临时取消缓存
+        location /epg/OttService/RetrievePrograms {
+            proxy_pass http://{{$v}}/search/OttService/RetrievePrograms;
+        }
+        location /epg/OttService/SearchPrograms {
+            proxy_pass http://{{$v}}/search/OttService/SearchPrograms;
+        }
+        ##OTT-BMM
+        location /epg/OttService/IntelligenceRecommend {
+            proxy_pass http://{{$v}}/search/OttService/IntelligenceRecommend;
+        }{{else if eq $v "epg"}}
+        ##something cached
+        location /epg/OttService/{
+            content_by_lua_file /usr/local/nginx/lua/cache.lua;
+        }
+        location /lua/epg/OttService/ {
+            proxy_pass http://{{$v}}/epg/OttService/;
+        }
+        location /epg/OttService/ItemScore {
+            proxy_pass http://{{$v}}/epg/OttService/ItemScore;
+        }
+        location /epg/OttService/QueryCommentList {
+            proxy_pass http://{{$v}}/epg/OttService/QueryCommentList;
+        }
+        location /epg/OttService/AddComment {
+            proxy_pass http://{{$v}}/epg/OttService/AddComment;
+        }
+        
+        ##for terminal log
+        location /service/QoSLogUpload{
+            content_by_lua_file /usr/local/nginx/lua/QoSLogUpload.lua;
+        }
+        location /ottLogUpload{
+            content_by_lua_file /usr/local/nginx/lua/ottLogUpload.lua;
+        }
+        location /service/TServiceAccesQoSLogUpload{
+            content_by_lua_file /usr/local/nginx/lua/QoSLogUpload.lua;
+        }
+        location /service/TVisitPage{
+            content_by_lua_file /usr/local/nginx/lua/LogService.lua;
+        }
+        location /service/TRecommendClick{
+            content_by_lua_file /usr/local/nginx/lua/LogService.lua;
+        }
+        {{else}}
+        location /{{$v}}/{
+            proxy_pass http://{{$v}};
+        }{{end}}{{end}}{{end}}
+
+    }
+}

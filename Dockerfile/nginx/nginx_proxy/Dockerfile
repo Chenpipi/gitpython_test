@@ -22,4 +22,4 @@ COPY files/rancher-gen /usr/bin/
 
 VOLUME /usr/local/nginx/conf/ /usr/local/nginx/lua/ /etc/rancher-gen/ /var/log/nginx/
 
-ENTRYPOINT /etc/init.d/nginx start && rancher-gen --config=/etc/rancher-gen/config.toml
+ENTRYPOINT /etc/init.d/nginx start

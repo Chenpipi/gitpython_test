@@ -1,0 +1,23 @@
+version: '2'
+services:
+  lb:
+    image: 10.50.131.32:8080/library/loadbalance:v0.2.0
+    restart: always
+    ports:
+      - ${real_port}:80
+    volumes:
+      - /usr/nettv/logs/lb:/var/log/nginx
+    volumes_from:
+      - memcached
+      - config-sidekick
+    labels:
+      io.rancher.scheduler.global: "${global_service}"
+      io.rancher.container.create_agent: 'true'
+      io.rancher.sidekicks: memcached, template-sidekick
+    links:
+      - memcached:memcached
+
+  config-sidekick:
+    image: 10.50.131.32:8080/library/nginx_conf:v0.1.0
+  memcached:
+    image: 10.50.131.32:8080/library/memcached:latest
