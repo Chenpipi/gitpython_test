@@ -13,11 +13,12 @@ services:
     labels:
       io.rancher.scheduler.global: "${global_service}"
       io.rancher.container.create_agent: 'true'
-      io.rancher.sidekicks: memcached, template-sidekick
+      io.rancher.sidekicks: memcached, config-sidekick
     links:
       - memcached:memcached
 
   config-sidekick:
     image: 10.50.131.32:8080/library/nginx_conf:v0.1.0
+
   memcached:
     image: 10.50.131.32:8080/library/memcached:latest
