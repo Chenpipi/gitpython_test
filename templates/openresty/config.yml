@@ -1,0 +1,5 @@
+name: Openresty LB
+description: |
+  Load Balance [Openresty Proxy]
+version: v0.1.0
+category: Applications
