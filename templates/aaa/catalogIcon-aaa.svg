@@ -5,10 +5,10 @@
 <style type="text/css">
 	.st0{fill:#E5E5E5;}
 	.st1{font-family:'AmericanTypewriter';}
-	.st2{font-size:12px;}
+	.st2{font-size:104.25px;}
 </style>
 <g>
-	<circle class="st0" cx="40.5" cy="37.5" r="16.5"/>
+	<circle class="st0" cx="40.5" cy="37.5" r="128"/>
 </g>
-<text transform="matrix(1 0 0 1 27.0718 40.3232)" class="st1 st2">AAA</text>
+<text transform="matrix(1 0 0 1 -80.3984 62.0273)" class="st1 st2">AAA</text>
 </svg>
