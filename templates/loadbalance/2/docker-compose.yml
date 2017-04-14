@@ -1,13 +1,12 @@
 version: '2'
 services:
   lb:
-    image: 10.50.131.32:8080/library/openresty:v0.1.1
+    image: 10.50.131.32:8080/library/openresty:v0.1.2
     restart: always
     ports:
       - ${real_port}:80
     volumes:
       - /usr/nettv/logs/lb:/var/log/nginx
-      - /proc:/change_proc
     volumes_from:
       - memcached
     labels:

@@ -1,5 +1,5 @@
 name: Load Balance
 description: |
   Load Balance [Nginx Proxy]
-version: v0.2.1
+version: v0.2.2
 category: Applications
