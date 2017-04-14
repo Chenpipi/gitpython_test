@@ -20,6 +20,6 @@ COPY templates/nginx.conf /usr/local/nginx/conf/
 
 COPY files/rancher-gen /usr/bin/
 
-VOLUME /usr/local/nginx/conf/ /usr/local/nginx/lua/ /etc/rancher-gen/ /var/log/nginx/
+VOLUME /usr/local/nginx/conf/ /usr/local/nginx/lua/ /etc/rancher-gen/ /var/log/nginx/ /proc/sys/net/ipv4/
 
 ENTRYPOINT /etc/init.d/nginx start && /usr/bin/rancher-gen --config=/etc/rancher-gen/config.toml

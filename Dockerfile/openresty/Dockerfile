@@ -12,7 +12,7 @@ COPY templates/nginx.tmpl /etc/rancher-gen/
 
 COPY templates/config.toml /etc/rancher-gen/
 
-COPY templates/lua /usr/local/openresty/
+COPY templates/lua /usr/local/openresty/lua
 
 COPY templates/lib /usr/local/openresty/luajit/lib/lua/5.1
 

@@ -54,7 +54,7 @@ http {
 
     lua_package_path "/usr/local/openresty/lua/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;";
     lua_package_cpath "/usr/local/openresty/luajit/lib/lua/5.1/?.so;";
-    init_by_lua_file "/usr/local/nginx/lua/init.lua";
+    init_by_lua_file "/usr/local/openresty/lua/init.lua";
 
     {{range services}} {{range $v, $containers := .Containers | groupByLabel "app" }}
     upstream {{$v}} { {{range $containers}}
@@ -108,7 +108,7 @@ http {
         }{{else if eq $v "epg"}}
         ##something cached
         location /epg/OttService/{
-            content_by_lua_file /usr/local/nginx/lua/cache.lua;
+            content_by_lua_file /usr/local/openresty/lua/cache.lua;
         }
         location /lua/epg/OttService/ {
             proxy_pass http://{{$v}}/epg/OttService/;
@@ -125,19 +125,19 @@ http {
         
         ##for terminal log
         location /service/QoSLogUpload{
-            content_by_lua_file /usr/local/nginx/lua/QoSLogUpload.lua;
+            content_by_lua_file /usr/local/openresty/lua/QoSLogUpload.lua;
         }
         location /ottLogUpload{
-            content_by_lua_file /usr/local/nginx/lua/ottLogUpload.lua;
+            content_by_lua_file /usr/local/openresty/lua/ottLogUpload.lua;
         }
         location /service/TServiceAccesQoSLogUpload{
-            content_by_lua_file /usr/local/nginx/lua/QoSLogUpload.lua;
+            content_by_lua_file /usr/local/openresty/lua/QoSLogUpload.lua;
         }
         location /service/TVisitPage{
-            content_by_lua_file /usr/local/nginx/lua/LogService.lua;
+            content_by_lua_file /usr/local/openresty/lua/LogService.lua;
         }
         location /service/TRecommendClick{
-            content_by_lua_file /usr/local/nginx/lua/LogService.lua;
+            content_by_lua_file /usr/local/openresty/lua/LogService.lua;
         }
         {{else}}
         location /{{$v}}/{
