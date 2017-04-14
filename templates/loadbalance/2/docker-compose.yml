@@ -7,7 +7,7 @@ services:
       - ${real_port}:80
     volumes:
       - /usr/nettv/logs/lb:/var/log/nginx
-      - /proc/sys/net/ipv4:/proc/sys/net/ipv4
+      - /proc:/change_proc
     volumes_from:
       - memcached
     labels:
