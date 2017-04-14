@@ -1,0 +1,21 @@
+version: '2'
+services:
+  lb:
+    image: 10.50.131.32:8080/library/openresty:v0.1.1
+    restart: always
+    ports:
+      - ${real_port}:80
+    volumes:
+      - /usr/nettv/logs/lb:/var/log/nginx
+      - /proc/sys/net/ipv4:/proc/sys/net/ipv4
+    volumes_from:
+      - memcached
+    labels:
+      io.rancher.scheduler.global: "${global_service}"
+      io.rancher.container.create_agent: 'true'
+      io.rancher.sidekicks: memcached
+    links:
+      - memcached:memcached
+
+  memcached:
+    image: 10.50.131.32:8080/library/memcached:latest
